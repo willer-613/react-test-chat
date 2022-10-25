@@ -22,7 +22,7 @@ const ChatInput = ({ onScrollIntoView }) => {
   const [message, setMessages] = useState("");
 
   const onEmojiClick = (event, data) => {
-    console.log(event, data);
+    // console.log(event, data);
     togglePicker();
     setMessages(`${message}${data.emoji}`);
   };
@@ -33,8 +33,8 @@ const ChatInput = ({ onScrollIntoView }) => {
       message: {
         id: Math.random() + "",
         senderId: [1, 2][+(Math.floor(Math.random() * 10) >= 5)],
-        body: message
-      }
+        body: message,
+      },
     });
     // 触发滚动
     onScrollIntoView();
