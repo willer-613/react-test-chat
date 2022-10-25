@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useState } from "react";
 import { useCreateContext } from "../createProvider";
+import loadable from "@loadable/component";
 
 // import Send from "./icons/Send";
 // import Emoji from "./icons/Emoji";
@@ -14,11 +15,13 @@ const Picker = lazy(() =>
   import(/*webpackChunkName: "emoji-picker" */ "./EmojiPicker")
 );
 
+const EmojiPicker = loadable(() => import("./EmojiPicker"), {
+  fallback: <div id="loading">Loading...</div>,
+});
+
 const ChatInput = ({ onScrollIntoView }) => {
   const { dispatch } = useCreateContext();
-
   const [pickerOpen, togglePicker] = React.useReducer((state) => !state, false);
-
   const [message, setMessages] = useState("");
 
   const onEmojiClick = (event, data) => {
@@ -38,6 +41,7 @@ const ChatInput = ({ onScrollIntoView }) => {
     });
     // 触发滚动
     onScrollIntoView();
+    setMessages("");
   };
 
   const onChangeMessage = (e) => {
@@ -57,6 +61,8 @@ const ChatInput = ({ onScrollIntoView }) => {
         <Suspense fallback={<p id="loading">Emoji Loading...</p>}>
           {pickerOpen && <Picker onEmojiClick={onEmojiClick} />}
         </Suspense>
+        {pickerOpen && <EmojiPicker onEmojiClick={onEmojiClick} />}
+
         <Send onClick={onSentMessage} />
       </div>
     </Suspense>

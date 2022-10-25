@@ -10,7 +10,7 @@ const ChatMessage = ({ message, side }) => (
 );
 
 const ChatList = forwardRef((_props, ref) => {
-  const { state } = useCreateContext();
+  const { state: messages } = useCreateContext();
   const listRef = useRef(null);
 
   useImperativeHandle(ref, () => ({
@@ -19,14 +19,12 @@ const ChatList = forwardRef((_props, ref) => {
         listRef.current.scrollTop = listRef.current.scrollHeight;
         // listRef.current.scrollIntoView(false);
       }, 0);
-    }
+    },
   }));
-
-  console.log(state, "messages111");
 
   return (
     <div className="chat-list" ref={listRef}>
-      {state.map((message) => (
+      {messages.map((message) => (
         <ChatMessage
           message={message.body}
           key={message.id}

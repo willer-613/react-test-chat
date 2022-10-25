@@ -19,6 +19,5 @@ const reducer = (state, action) => {
 
 export const useCreateReducer = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   return [state, dispatch];
 };
